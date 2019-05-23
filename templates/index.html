@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客帝国</title>
+    <link rel="stylesheet" href="/static/css/mystyle.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">博客帝国</a>
+    </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Link</a></li>
+            </ul>
+
+
+            <ul class="nav navbar-nav navbar-right">
+
+                {% if request.user.username %}
+
+                    <li><a href="#">{{ request.user.username }}</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">个人中心 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="logout.html">注销</a></li>
+                        </ul>
+                    </li>
+
+
+                {% else %}
+
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--主页面开始-->
+<div class="container">
+    <div class="row">
+        <!--首页左侧部分开始-->
+        <div class="col-md-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">广告1</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">广告2</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+        <!--首页左侧部分结束-->
+
+        <!--首页中间部分开始-->
+        <div class="col-md-8">
+            <!--文章列表开始-->
+            <div class="article_list">
+                {% for article in article_list %}
+                    <div class="article">
+                        <h3>
+                            <a href="/blog/{{ article.user.username }}/article/{{ article.pk }}/">{{ article.title }}</a>
+                        </h3>
+                        <ul class="media-list">
+                            <li class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" id="avatar_img"
+                                             src="/static/{{ article.user.avatar }}" alt="...">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <p>{{ article.desc }}</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="article_footer">
+                            <span><a href="/blog/{{ article.user.username }}">{{ article.user.username }}</a> </span>发布于
+                            <span>{{ article.create_time |date:'Y-m-d H:i:s' }}</span>
+                            <span class="glyphicon glyphicon-comment"><a
+                                    href="">评论({{ article.comment_count }})</a></span>
+                            <span class="glyphicon glyphicon-thumbs-up"><a href="">点赞({{ article.up_count }})</a></span>
+                        </div>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+            <!--文章列表结束-->
+
+            <!--文章底部-->
+            <div id="footer_bottom">
+                <div><a href="">关于博客帝国</a><a href="">联系我们</a><a
+                        href="">广告服务</a>©2004-2018<a href="">博客帝国</a>保留所有权利<a
+                        href="" target="_blank">沪ICP备09004260号</a></div>
+                <div>
+                    <a href=""
+                       rel="nofollow" target="_blank"></a>
+                    <a target="_blank" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                        <img src="/static/images/ghs.png" alt=""><span
+                            style="float:left;height:20px;line-height:20px;margin: 0 5px 0 5px; color:#939393;">沪公网安备 31011502001144号</span></a>
+                </div>
+            </div>
+
+
+        </div>
+        <!--首页中间部分结束-->
+
+
+        <!--首页右侧部分开始-->
+        <div class="col-md-2">
+            <div id="search_block">
+                <div class="side_search">
+                    <input type="text" id="zzk_q" class="search_input" onkeydown="return zzk_go_enter(event);"
+                           tabindex="3"><input onclick="zzk_go()" type="button" class="search_btn" value="找找看">
+                </div>
+
+            </div>
+            <img width="300" height="250" src="/static/images/24442-20181023124101732-1607271482.jpg" alt="腾讯云B1"
+                 onclick="ga('send', 'event', 'Link', 'click', 'B1');">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">广告3</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">广告4</div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+        <!--首页右侧部分结束-->
+
+    </div>
+
+</div>
+
+
+<!--主页面结束-->
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
+<script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/js/xx.js"></script>
+
+</body>
+</html>

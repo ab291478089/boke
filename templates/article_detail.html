@@ -1,0 +1,157 @@
+{% extends 'muban.html' %}
+
+{% block page-main %}
+    <div class="article-detail">
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.articledetail.content|safe }}</p>
+
+        <div class="poll clearfix">  <!--clearfix 清除浮动-->
+            <div id="div_digg" class="diggen">
+                <div class="diggit action">
+                    <span class="diggnum" id="digg_count">{{ article.up_count }}</span>
+                </div>
+                <div class="buryit action">
+                    <span class="burynum" id="bury_count">{{ article.down_count }}</span>
+                </div>
+                <div class="clear"></div>
+                <div class="diggword" id="digg_tips" style="color: red;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info" article_id="{{ article.pk }}" username="{{ request.user.username }}"></div>
+    <p>评论树</p>
+    <div class="comment_tree">
+
+    </div>
+    <hr>
+    <p>评论列表</p>
+    <ul class="comment_list">
+        {% for comment in comment_list %}
+            <li class="list-group-item">
+                <div>
+                    <a href="">#{{ forloop.counter }}楼</a> &nbsp;&nbsp;
+                    <span style="color: gray">{{ comment.create_time|date:"Y-m-d H:i" }}</span> &nbsp;&nbsp;
+                    <a href=""><span>{{ comment.user.username }}</span></a>
+                    <a class="pull-right reply_btn" username="{{ comment.user.username }}"
+                       comment_pk="{{ comment.pk }}"><span>回复</span></a>
+                </div>
+                {% if comment.parent_comment_id %}
+                 <div class="parent_info">
+                 <p>{{ comment.parent_comment.user.username }}:{{ comment.parent_comment.content }}</p>
+                 <p>{{ comment.user.username }}回复内容：{{ comment.content }}</p>
+                 </div>
+                {% else %}
+                    <div class="list"><p>{{ comment.content }}</p>
+                </div>
+                {% endif %}
+
+
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if request.user.username %}
+        <p>
+            昵称：<input type="text" id="tbCommentAuthor" class="author" disabled="disabled" size="50"
+                      value="{{ request.user.username }}">
+        </p>
+        <p>评论内容:</p>
+        <textarea id="comment" cols="55" rows="10"></textarea>
+        <p>
+            <button id="comment_submit">提交评论</button>
+        </p>
+    {% else %}
+        <a href="/login.html">您还没有登录，请先登录</a>
+    {% endif %}
+
+
+    <script src="/static/js/xx.js"></script>
+
+    <script>
+    //获取评论数
+   $.ajax({
+       url: "/blog/comment_tree/"+'{{ article.pk }}/',
+       success:function (data) {
+           console.log(data);
+           $.each(data,function (index,comment_dict) {
+                var s = '<div class="comment_item" comment_id='+comment_dict.pk+'><span class="content">'+comment_dict.content+'</span></div>'
+               if(comment_dict.parent_comment_id){
+                   //存在子评论
+                   parent =comment_dict.parent_comment_id;
+                   $("[comment_id="+parent+"]").append(s);
+               }else {
+                //根评论
+                   $('.comment_tree').append(s);
+               }
+               
+           })
+       }
+       }
+   );
+
+
+
+
+
+
+
+        var parent = "";
+        //提交评论
+        $('#comment_submit').click(function () {
+            var article_id = $('.info').attr('article_id');
+            var comment = $('#comment').val();
+            {#parent表示父评论，如果父评论为空的话，则表示此评论为空评论#}
+            if (parent) {
+                var index = comment.indexOf("\n");  //找换行符的索引
+                //截取索引后到结尾所有content的内容
+                comment = comment.slice(index + 1);
+            }
+
+
+            $.ajax({
+                url: '/blog/comment/',
+                type: 'post',
+                data: {
+                    article_id: article_id,
+                    comment: comment,
+                    parent: parent
+                },
+                success: function (data) {
+                    console.log(data);
+                    var create_time = data.create_time;
+                    var content = data.content;
+                    var username = data.username;
+
+                    var comment_li = '<li class="list-group-item"><div><span style="color: gray">' + create_time + '</span> &nbsp;&nbsp;<a href=""><span>' + username + '</span></a></div> <div class="list"><p>' + content + '</p></div> </li>';
+                    $('.comment_list').append(comment_li);
+
+                    //清空评论框
+                    $('#comment').val("")
+                }
+            })
+
+
+        })
+
+        //回复按钮
+        $('.list-group-item .reply_btn').click(function () {
+            //获取焦点
+            $('#comment').focus();
+
+            var v = "@" + $(this).attr('username') + "\n";
+            $('#comment').val(v)
+
+            //parent赋值
+            parent = $(this).attr('comment_pk')
+
+        })
+
+
+    </script>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ blog.title }}</title>
+    <link rel="stylesheet" href="/static/css/mystyle.css">
+    <link rel="stylesheet" href="/static/theme/{{ blog.theme }}">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/static/js/xx.js"></script>
+
+</head>
+<body>
+<div class="header">
+    <p>{{ blog.title }}
+    <span><a href="/index.html">首页</a></span></p>
+</div>
+
+<div class="container">
+    <div class="col-md-3">
+        <!--个人博客左侧开始-->
+       {% load my_tags %}
+        {% get_left_menu username %}
+    </div>
+    <!--个人博客左侧结束-->
+
+    <!--首页中间部分开始-->
+    <div class="col-md-8">
+        {% block page-main %}
+        {% endblock %}
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

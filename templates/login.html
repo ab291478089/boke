@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/css/mystyle.css" >
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="login">
+<div class="page-header">
+  <h1> <small><p>登陆界面</p></small></h1>
+</div>
+
+<form class="popup" action="login.html" method="post">
+
+    <br>
+    <p>
+        <label for="username">用户名：</label>
+        <input class="inp" id="username" name="username" type="text" >
+    </p>
+    <br>
+    <p>
+        <label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+        <input class="inp" id="password" name="password" type="password" >
+    </p>
+
+    <div id="embed-captcha"></div>
+    <p id="wait" class="show">正在加载验证码......</p>
+    <p id="notice" class="hide">请先拖动验证码到相应位置</p>
+
+    <br>
+    <input class="btn" id="embed-submit" type="submit" value="登录">
+    <a class="button_reg"  href="register.html">注册账号</a>
+    <p style="color: red">{{ msg }}</p>
+</form>
+</div>
+<!-- 为使用方便，直接使用jquery.js库，如您代码中不需要，可以去掉 -->
+<script src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
+<!-- 引入封装了failback的接口--initGeetest -->
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script src="/static/js/xx.js"></script>
+</body>
+</html>

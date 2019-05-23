@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header{
+            background-color: blue;
+            width: auto;
+            height: 50px;
+        }
+        .content{
+            width: 80%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+ <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<body>
+
+<div class="header"></div>
+<div class="content">
+    <h3>添加文章</h3>
+    <form action="add_article.html"method="post">
+        <div>
+            <label for="">文章标题</label>
+            <input type="text" name="title" class="form-control" style="width: 200px">
+ </div>
+        <div>
+
+        <textarea name="article_content" id="article_content" cols="60" rows="20"></textarea>
+
+</div>
+        <input type="submit" class="btn btn-info">
+    </form>
+
+</div>
+
+<script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+
+<script>
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#article_content',{
+                    uploadJson:"/upload/",
+                    filePostName:"upload_img"
+            });
+        });
+</script>
+</body>
+</html>

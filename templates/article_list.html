@@ -1,0 +1,10 @@
+{% extends 'muban.html' %}
+
+{% block page-main %}
+    <div class="article-list">
+        {% for article in article_list %}
+        <p>{{ article }}</p>
+        {% endfor %}
+
+    </div>
+{% endblock %}

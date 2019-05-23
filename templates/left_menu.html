@@ -1,0 +1,24 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">文章分类</div>
+    <div class="panel-body">
+        {% for category in category_list %}
+            <p><a href="/blog/{{ category }}/category/{{ category.title}}/">{{ category.title }}({{ category.c }})</a></p>
+        {% endfor %}
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">文章标签</div>
+    <div class="panel-body">
+        {% for tag in tag_list %}
+            <p><a href="/{{ tag.user.username }}/tag/{{ tag.title }}/">{{ tag.title }}({{ tag.c }})</a></p>
+        {% endfor %}
+    </div>
+</div>
+<div class="panel panel-danger">
+    <div class="panel-heading">时间归档</div>
+    <div class="panel-body">
+        {% for archive in archive_list %}
+            <p><a href="/{{ archive.user.username }}/archive/{{ archive.archive_tm }}/">{{ archive.archive_tm }}({{ archive.c }})</a></p>
+        {% endfor %}
+    </div>
+</div>
